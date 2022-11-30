@@ -14,6 +14,9 @@ inputs:
   upload-chunk-size:
     description: 'The chunk size used to split up large files during upload, in bytes'
     required: false
+  cache-on-fail:
+    description: 'Whether to save the cache regardless of the success of the job'
+    required: false
 outputs:
   cache-hit:
     description: 'A boolean value to indicate an exact match was found for the primary key'
@@ -21,7 +24,7 @@ runs:
   using: 'node16'
   main: 'dist/restore/index.js'
   post: 'dist/save/index.js'
-  post-if: 'success()'
+  post-if: 'success() || inputs.cache-on-fail'
 branding:
   icon: 'archive'
   color: 'gray-dark'
